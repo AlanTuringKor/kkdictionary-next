@@ -28,6 +28,11 @@ export const metadata = {
     shortcut: '/favicon-32x32.png',
     apple: '/apple-touch-icon.png',
   },
+  verification: {
+    other: {
+      'naver-site-verification': '0db3774f949bb6912125832f9506853a58f66469',
+    },
+  },
 }
 
 
