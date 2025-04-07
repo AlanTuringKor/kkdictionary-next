@@ -1,0 +1,9 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://kkdictionary.com/sitemap.xml
+Sitemap: https://크크백과.com/sitemap.xml
+Sitemap: https://키키백과.com/sitemap.xml
+
+
+#DaumWebMasterTool:af2e32eab0554c13a2388cec1e148162878c53d19d766c3d95d48efe6ed25dc2:v3kAkwJsDYP7nJGyisBOKA==

@@ -1,7 +1,7 @@
 // src/lib/mongodb.ts
 import { MongoClient } from 'mongodb'
 
-const uri = 'mongodb://admin:adminpassword@localhost:27017/'
+const uri = process.env.MONGODB_URI
 const options = {}
 
 let client: MongoClient

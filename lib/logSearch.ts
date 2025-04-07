@@ -1,7 +1,7 @@
 // lib/logSearch.ts
 import { getDb } from './mongodb'
 import { headers } from 'next/headers'
-import { logSearch } from '@/lib/logSearch'
+
 
 export async function logSearch(query: string, found: boolean) {
   try {
