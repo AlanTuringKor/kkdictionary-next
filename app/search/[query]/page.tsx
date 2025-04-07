@@ -4,6 +4,7 @@ import { searchWord } from '@/lib/searchDictionary'
 import { getSimilarWords } from '@/lib/getSimilarWords'
 import Link from 'next/link'
 import SearchBar from '@/components/SearchBar'
+import { logSearch } from '@/lib/logSearch'
 
 interface SearchPageProps {
   params: { query: string }
@@ -16,6 +17,7 @@ export default async function ResultPage({ params }: SearchPageProps) {
   if (!query) return notFound()
 
   const result = await searchWord(query)
+  await logSearch(query, !!result)
 
   if (!result) {
     const similarWords = await getSimilarWords(query)
