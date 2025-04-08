@@ -10,6 +10,30 @@ interface SearchPageProps {
   params: { query: string }
 }
 
+// ✅ SEO 메타데이터 설정
+export async function generateMetadata({ params }: SearchPageProps) {
+  const rawQuery = params.query
+  const query = decodeURIComponent(rawQuery.trim())
+
+  const result = await searchWord(query)
+
+  const title = result
+    ? `${result.word} 뜻 - 신조어사전 ㅋㅋ백과`
+    : `${query} - 신조어 검색 결과 없음 | ㅋㅋ백과`
+
+  const description = result
+    ? `${result.definitions?.[0]?.description ?? '정의 없음'} - ${result.word}의 뜻을 ㅋㅋ백과에서 확인하세요.`
+    : `"${query}"에 대한 신조어 검색 결과가 없습니다. 비슷한 단어를 추천해드려요.`
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://kkdictionary.com/search/${encodeURIComponent(query)}`,
+    },
+  }
+}
+
 export default async function ResultPage({ params }: SearchPageProps) {
   const rawQuery = params.query
   const query = decodeURIComponent(rawQuery.trim())
@@ -66,3 +90,16 @@ export default async function ResultPage({ params }: SearchPageProps) {
     </main>
   )
 }
+
+import { getPopularSearches } from '@/lib/getPopularSearches'
+
+// SSG용 파라미터 생성
+export async function generateStaticParams() {
+  const popular = await getPopularSearches(50, null) // 전체 로그에서 상위 50개
+  return popular.map(({ word }) => ({
+    query: encodeURIComponent(word)
+  }))
+}
+
+// 강제로 정적 페이지로 생성
+export const dynamic = 'force-static'
