@@ -6,10 +6,13 @@ import { getRecentWords } from '@/lib/getRecentWords'
 import RecentWords from '@/components/RecentWords'
 import PopularSearches from '@/components/PopularSearches'
 
+export const dynamic = 'force-dynamic'
+
 export default async function WelcomePage() {
   const randomWords = await getRandomWords(6)
   const recentWords = await getRecentWords()
   const isLoading = false // SSR이라 로딩은 거의 발생하지 않지만 구조 유지용
+  
 
   return (
     <main className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 py-8 gap-8">
@@ -39,7 +42,12 @@ export default async function WelcomePage() {
                 />
               ))}
         </div>
+        <div className="block lg:hidden w-full mt-10">
+        <RecentWords entries={recentWords} />
+      </div>
       </section>
+      {/* 모바일용 RecentWords  */}
+     
 
       {/* 오른쪽 사이드바 */}
       <aside className="w-full lg:w-[180px] shrink-0 h-full">
