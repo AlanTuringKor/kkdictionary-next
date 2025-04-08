@@ -4,7 +4,7 @@ import { ImageResponse } from 'next/og'
 export const runtime = 'edge'
 
 export async function GET(request: Request, { params }: { params: { word: string } }) {
-  const query = decodeURIComponent(params.word)
+  const query = decodeURIComponent(params.word.replace(/\.png$/, '')) // ⬅️ .png 제거
   const definition = '신조어는 ㅋㅋ백과에서!'
 
   return new ImageResponse(
@@ -20,7 +20,7 @@ export async function GET(request: Request, { params }: { params: { word: string
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: '#003366',
-          fontFamily: 'sans-serif',
+          fontFamily: 'Impact, Arial Black, sans-serif',
           paddingTop: '60px',
         },
         children: [
@@ -42,17 +42,17 @@ export async function GET(request: Request, { params }: { params: { word: string
                 padding: '10px',
                 transform: 'rotate(-20deg)',
               },
-              children: Array(1000).fill('ㅋ').join(' '),
+              children: Array(1500).fill('ㅋ').join(' '),
             },
           },
-          // 실제 단어
+          // 실제 단어 (더 크게 표시)
           {
             type: 'h1',
             props: {
               style: {
-                fontSize: 80,
+                fontSize: 250,
                 color: '#FFDC00',
-                marginBottom: '40px',
+                marginBottom: '20px',
                 zIndex: 1,
               },
               children: query,
@@ -63,7 +63,7 @@ export async function GET(request: Request, { params }: { params: { word: string
             type: 'p',
             props: {
               style: {
-                fontSize: 40,
+                fontSize: 36,
                 color: '#FFDC00',
                 lineHeight: 1.4,
                 maxWidth: 1000,
@@ -71,19 +71,6 @@ export async function GET(request: Request, { params }: { params: { word: string
                 zIndex: 1,
               },
               children: definition,
-            },
-          },
-          // 사이트명
-          {
-            type: 'span',
-            props: {
-              style: {
-                fontSize: 24,
-                marginTop: '60px',
-                color: '#FFDC00',
-                zIndex: 1,
-              },
-              children: 'ㅋㅋ백과',
             },
           },
         ],
