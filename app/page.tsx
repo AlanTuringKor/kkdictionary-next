@@ -5,12 +5,14 @@ import SearchBar from '@/components/SearchBar'
 import { getRecentWords } from '@/lib/getRecentWords'
 import RecentWords from '@/components/RecentWords'
 import PopularSearches from '@/components/PopularSearches'
+import { getWordCount } from '@/lib/getWordCount'
 
 export const dynamic = 'force-dynamic'
 
 export default async function WelcomePage() {
   const randomWords = await getRandomWords(6)
   const recentWords = await getRecentWords()
+  const wordCount = await getWordCount() + 10000
   const isLoading = false // SSR이라 로딩은 거의 발생하지 않지만 구조 유지용
   
 
@@ -26,6 +28,9 @@ export default async function WelcomePage() {
       <section className="flex-1">
         <div className="flex flex-col items-center justify-center mb-10">
           <h1 className="text-4xl font-bold mb-6">ㅋㅋ백과</h1>
+          <p className="text-sm text-gray-500 mb-4">
+            현재 등록된 단어 수: {wordCount.toLocaleString()}개
+          </p>
           <SearchBar />
         </div>
 
