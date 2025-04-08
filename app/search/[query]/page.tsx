@@ -15,25 +15,43 @@ export async function generateMetadata({ params }: SearchPageProps) {
   const query = decodeURIComponent(rawQuery.trim())
   const results = await searchWord(query)
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const pageUrl = `${baseUrl}/search/${encodeURIComponent(query)}`
+  const ogImage = `${baseUrl}/api/og/${encodeURIComponent(query)}.png`
+
   const title = results.length
     ? `${query} 뜻 - 신조어사전 ㅋㅋ백과`
     : `${query} - 신조어 검색 결과 없음 | ㅋㅋ백과`
 
   const description = results.length
-    ? results
-        .map((r) => r.definitions?.[0]?.description)
-        .filter(Boolean)
-        .join(' / ')
-    : `"${query}"에 대한 신조어 검색 결과가 없습니다. 비슷한 단어를 추천해드려요.`
+    ? results[0]?.definitions?.[0]?.description ?? '정의 없음'
+    : `"${query}"에 대한 신조어 검색 결과가 없습니다.`
 
   return {
     title,
     description,
     alternates: {
-      canonical: `https://kkdictionary.com/search/${encodeURIComponent(query)}`
-    }
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: 'ㅋㅋ백과',
+      images: [ogImage],
+      type: 'article',
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
   }
 }
+
+
 
 export default async function ResultPage({ params }: SearchPageProps) {
   const rawQuery = params.query
