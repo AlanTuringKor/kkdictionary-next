@@ -19,7 +19,7 @@ export default async function WelcomePage() {
   return (
     <main className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 py-8 gap-8">
       {/* 왼쪽 사이드바 */}
-      <aside className="w-full lg:w-[180px] shrink-0 hidden lg:block h-full">
+      <aside className="w-full lg:w-[180px] shrink-0 hidden lg:block h-full lg:mt-28">
         <RecentWords entries={recentWords} />
       </aside>
       
@@ -55,7 +55,7 @@ export default async function WelcomePage() {
      
 
       {/* 오른쪽 사이드바 */}
-      <aside className="w-full lg:w-[180px] shrink-0 h-full">
+      <aside className="w-full lg:w-[180px] shrink-0 h-full lg:mt-28">
         <PopularSearches days={0} />
       </aside>
     </main>
