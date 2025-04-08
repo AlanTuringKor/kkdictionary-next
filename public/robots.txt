@@ -2,8 +2,9 @@ User-agent: *
 Disallow:
 
 Sitemap: https://kkdictionary.com/sitemap.xml
-Sitemap: https://크크백과.com/sitemap.xml
-Sitemap: https://키키백과.com/sitemap.xml
+
+# canonical 도메인: https://kkdictionary.com
+# 다른 도메인은 301 redirect로 정리
 
 
 #DaumWebMasterTool:af2e32eab0554c13a2388cec1e148162878c53d19d766c3d95d48efe6ed25dc2:v3kAkwJsDYP7nJGyisBOKA==

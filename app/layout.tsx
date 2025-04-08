@@ -7,6 +7,9 @@ export const metadata = {
   title: 'ㅋㅋ백과 - 한국어 신조어 사전',
   description: 'ㅋㅋ백과는 한국어 신조어와 비속어를 설명하는 커뮤니티 기반 백과사전입니다.',
   metadataBase: new URL('https://kkdictionary.com'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'ㅋㅋ백과',
     description: '한국어 신조어/비속어 커뮤니티 사전',
