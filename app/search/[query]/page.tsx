@@ -4,6 +4,7 @@ import { getSimilarWords } from '@/lib/getSimilarWords'
 import Link from 'next/link'
 import SearchBar from '@/components/SearchBar'
 import { logSearch } from '@/lib/logSearch'
+import { LikeDislikeButtons } from '@/components/LikeDislikeButtons'
 
 interface SearchPageProps {
   params: { query: string }
@@ -51,8 +52,6 @@ export async function generateMetadata({ params }: SearchPageProps) {
   }
 }
 
-
-
 export default async function ResultPage({ params }: SearchPageProps) {
   const rawQuery = params.query
   const query = decodeURIComponent(rawQuery.trim())
@@ -99,20 +98,43 @@ export default async function ResultPage({ params }: SearchPageProps) {
       <h1 className="text-2xl font-bold mb-6">"{query}"의 정의</h1>
 
       <div className="space-y-6">
-        {results.map((entry, idx) => (
-          <div key={idx} className="bg-white p-4 shadow rounded">
-            {entry.definitions.map((def: any, i: number) => (
-              <div key={i} className="mb-4">
-                <p className="font-medium">• {def.description}</p>
-                {def.example && def.example.length > 0 && (
-                  <p className="text-sm text-gray-600 mt-1">
-                    예: {def.example.join(', ')}
-                  </p>
-                )}
+        {results.map((entry, idx) => {
+          const word = entry.word
+          const author = entry.author ?? "익명"
+          const time = new Date(entry.entry_time)
+          const isValidDate = !isNaN(time.getTime())
+          const likedUsers: string[] = entry.liked_users ?? []
+          const dislikedUsers: string[] = entry.disliked_users ?? []
+
+          return (
+            <div key={idx} className="bg-white p-6 shadow-lg rounded-xl space-y-4 relative border border-gray-100">
+              <h2 className="text-3xl font-bold text-primary">{word}</h2>
+
+              {entry.definitions?.map((def: any, i: number) => (
+                <div key={i} className="space-y-2">
+                  <p className="text-lg text-gray-800">{def.description}</p>
+                  {def.example && def.example.length > 0 && (
+                    <div className="italic text-gray-600 pl-3 border-l-4 border-yellow-300">
+                      {def.example.map((ex: string, j: number) => (
+                        <p key={j}>"{ex}"</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              <div className="text-sm text-gray-500">
+                {author} · {isValidDate ? `${time.getFullYear()}년 ${time.getMonth() + 1}월 ${time.getDate()}일` : "날짜 없음"}
               </div>
-            ))}
-          </div>
-        ))}
+
+              <LikeDislikeButtons
+                wordId={entry.id}
+                likedUsers={likedUsers}
+                dislikedUsers={dislikedUsers}
+              />
+            </div>
+          )
+        })}
       </div>
     </main>
   )
