@@ -5,6 +5,7 @@ import Link from 'next/link'
 import SearchBar from '@/components/SearchBar'
 import { logSearch } from '@/lib/logSearch'
 import { LikeDislikeButtons } from '@/components/LikeDislikeButtons'
+import DefinitionCard from '@/components/DefinitionCard'
 
 interface SearchPageProps {
   params: { query: string }
@@ -98,43 +99,18 @@ export default async function ResultPage({ params }: SearchPageProps) {
       <h1 className="text-2xl font-bold mb-6">"{query}"의 정의</h1>
 
       <div className="space-y-6">
-        {results.map((entry, idx) => {
-          const word = entry.word
-          const author = entry.author ?? "익명"
-          const time = new Date(entry.entry_time)
-          const isValidDate = !isNaN(time.getTime())
-          const likedUsers: string[] = entry.liked_users ?? []
-          const dislikedUsers: string[] = entry.disliked_users ?? []
-
-          return (
-            <div key={idx} className="bg-white p-6 shadow-lg rounded-xl space-y-4 relative border border-gray-100">
-              <h2 className="text-3xl font-bold text-primary">{word}</h2>
-
-              {entry.definitions?.map((def: any, i: number) => (
-                <div key={i} className="space-y-2">
-                  <p className="text-lg text-gray-800">{def.description}</p>
-                  {def.example && def.example.length > 0 && (
-                    <div className="italic text-gray-600 pl-3 border-l-4 border-yellow-300">
-                      {def.example.map((ex: string, j: number) => (
-                        <p key={j}>"{ex}"</p>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              <div className="text-sm text-gray-500">
-                {author} · {isValidDate ? `${time.getFullYear()}년 ${time.getMonth() + 1}월 ${time.getDate()}일` : "날짜 없음"}
-              </div>
-
-              <LikeDislikeButtons
-                wordId={entry.id}
-                likedUsers={likedUsers}
-                dislikedUsers={dislikedUsers}
-              />
-            </div>
-          )
-        })}
+      {results.map((entry, idx) => (
+        <DefinitionCard
+          key={idx}
+          word={entry.word}
+          definitions={entry.definitions}
+          author={entry.author}
+          entry_time={entry.entry_time}
+          wordId={entry.id}
+          likedUsers={entry.liked_users ?? []}
+          dislikedUsers={entry.disliked_users ?? []}
+        />
+      ))}
       </div>
     </main>
   )
