@@ -24,7 +24,7 @@ export default function DefinitionSection({ randomWords, currentPage }: Definiti
           ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
           : randomWords.map((entry) => (
               <DefinitionCard
-                key={entry.id}
+                key={entry.wordId}
                 word={entry.word}
                 definitions={entry.definitions}
                 author={entry.author}
