@@ -1,20 +1,28 @@
-import { getRandomWords } from '@/lib/getRandomWords'
-import SkeletonCard from '@/components/SkeletonCard'
-import WordCard from '@/components/WordCard'
+// page.tsx
+import { getRandomWordsPaged } from '@/lib/getRandomWordsPaged'
+import DefinitionSection from '@/components/DefinitionSection'
 import SearchBar from '@/components/SearchBar'
 import { getRecentWords } from '@/lib/getRecentWords'
 import RecentWords from '@/components/RecentWords'
 import PopularSearches from '@/components/PopularSearches'
 import { getWordCount } from '@/lib/getWordCount'
+import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
-export default async function WelcomePage() {
-  const randomWords = await getRandomWords(6)
-  const recentWords = await getRecentWords()
-  const wordCount = await getWordCount() + 10000
-  const isLoading = false // SSR이라 로딩은 거의 발생하지 않지만 구조 유지용
-  
+interface SearchParams {
+  searchParams: { page?: string }
+}
+
+export default async function WelcomePage({ searchParams }: SearchParams) {
+  const currentPage = parseInt(searchParams.page || '1', 10)
+  if (currentPage < 1 || currentPage > 40) redirect('/?page=1')
+
+  const [randomWords, recentWords, wordCount] = await Promise.all([
+    getRandomWordsPaged(currentPage),
+    getRecentWords(),
+    getWordCount(),
+  ])
 
   return (
     <main className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 py-8 gap-8">
@@ -22,37 +30,23 @@ export default async function WelcomePage() {
       <aside className="w-full lg:w-[180px] shrink-0 hidden lg:block h-full lg:mt-28">
         <RecentWords entries={recentWords} />
       </aside>
-      
 
       {/* 가운데 메인 콘텐츠 영역 */}
       <section className="flex-1">
         <div className="flex flex-col items-center justify-center mb-10">
           <h1 className="text-4xl font-bold mb-6">ㅋㅋ백과</h1>
           <p className="text-sm text-gray-500 mb-4">
-            현재 등록된 단어 수: {wordCount.toLocaleString()}개
+            현재 등록된 단어 수: {(wordCount + 10000).toLocaleString()}개
           </p>
           <SearchBar />
         </div>
 
-        <h2 className="text-xl font-semibold mb-4 text-primary">오늘의 추천 단어</h2>
+        <DefinitionSection randomWords={randomWords} currentPage={currentPage} />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {isLoading
-            ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-            : randomWords.map((entry) => (
-                <WordCard
-                  key={entry.id}
-                  word={entry.word}
-                  description={entry.definitions?.[0]?.description || '설명이 없습니다'}
-                />
-              ))}
-        </div>
         <div className="block lg:hidden w-full mt-10">
-        <RecentWords entries={recentWords} />
-      </div>
+          <RecentWords entries={recentWords} />
+        </div>
       </section>
-      {/* 모바일용 RecentWords  */}
-     
 
       {/* 오른쪽 사이드바 */}
       <aside className="w-full lg:w-[180px] shrink-0 h-full lg:mt-28">
@@ -61,5 +55,3 @@ export default async function WelcomePage() {
     </main>
   )
 }
-
-

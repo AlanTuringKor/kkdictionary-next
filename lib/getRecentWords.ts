@@ -1,6 +1,6 @@
 import clientPromise from './mongodb'
 
-export async function getRecentWords(limit = 10) {
+export async function getRecentWords(limit = 100) {
   const client = await clientPromise
   const db = client.db('DictionaryDB')
   const collection = db.collection('dictionaries')

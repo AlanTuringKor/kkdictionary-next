@@ -1,6 +1,6 @@
 import { getDb } from './mongodb'
 
-export async function getPopularSearches(limit: number = 10, days: number | null = 7) {
+export async function getPopularSearches(limit: number = 100, days: number | null = 7) {
   const db = await getDb()
 
   const match = days
