@@ -24,12 +24,12 @@ export default function DefinitionSection({ randomWords, currentPage }: Definiti
           ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
           : randomWords.map((entry) => (
               <DefinitionCard
-                key={entry.wordId}
+                key={entry.id}
                 word={entry.word}
                 definitions={entry.definitions}
                 author={entry.author}
                 entry_time={entry.entry_time}
-                wordId={entry.id}
+                wordId={entry.wordId}
                 likedUsers={entry.liked_users ?? []}
                 dislikedUsers={entry.disliked_users ?? []}
               />
