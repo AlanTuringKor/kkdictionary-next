@@ -21,15 +21,20 @@ export async function PUT(req: Request, { params }: Params) {
   const db = await getDb()
   const body = await req.json()
 
+  const updateFields: any = {
+    'definitions.0.description': body.description,
+    'definitions.0.example': body.example,
+    last_modified: new Date(),
+  }
+
+  // ✅ 태그도 포함되어 있다면 추가
+  if (Array.isArray(body.tags)) {
+    updateFields.tags = body.tags.filter(tag => typeof tag === 'string')
+  }
+
   const result = await db.collection('dictionaries').updateOne(
     { id: params.id },
-    {
-      $set: {
-        'definitions.0.description': body.description,
-        'definitions.0.example': body.example,
-        last_modified: new Date(),
-      },
-    }
+    { $set: updateFields }
   )
 
   if (result.matchedCount === 0) {
@@ -38,3 +43,4 @@ export async function PUT(req: Request, { params }: Params) {
 
   return NextResponse.json({ message: 'Updated' }, { status: 200 })
 }
+

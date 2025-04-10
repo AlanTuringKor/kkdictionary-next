@@ -45,16 +45,22 @@ export async function POST(req: Request) {
   const now = new Date()
 
   const newEntry = {
-    ...body,
+    id: crypto.randomUUID(),  // ✅ id 필드 명시적으로 추가
+    word: body.word,
+    definitions: body.definitions,
     liked_users: [],
     disliked_users: [],
     author: null,
     entry_time: now,
     last_modified: now,
     source_dictID: crypto.randomUUID(),
+    tags: Array.isArray(body.tags)
+      ? body.tags.filter(tag => typeof tag === "string")
+      : [], // ✅ 태그가 정상적일 때만 삽입
   }
 
   const result = await db.collection('dictionaries').insertOne(newEntry)
 
   return NextResponse.json({ insertedId: result.insertedId }, { status: 201 })
 }
+
