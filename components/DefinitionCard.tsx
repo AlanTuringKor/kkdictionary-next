@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { LikeDislikeButtons } from '@/components/LikeDislikeButtons'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface Definition {
   description: string
@@ -46,37 +47,44 @@ export default function DefinitionCard({
   }
 
   return (
-    <div className="bg-white p-6 shadow-lg rounded-xl space-y-4 relative border border-gray-100">
+    <div className="relative bg-white border-2 border-[#FFDC00] p-6 space-y-4   transition-transform duration-300 ease-in-out transform hover:scale-[1.01] font-mono text-[#1a1a1a]">
+
       {/* 공유 버튼 */}
       <button
         onClick={handleShare}
-        className="absolute top-4 right-4 text-sm text-gray-500 hover:text-gray-700"
+        className="absolute top-4 right-4 hover:opacity-80"
         title="이 단어 링크 복사하기"
       >
-        📤 공유
+        <Image
+          src="/share.svg"
+          alt="공유"
+          width={24}
+          height={24}
+          className="text-[#FFDC00] "
+        />
       </button>
 
       {/* 단어 제목 */}
       <Link href={`/search/${encodeURIComponent(word)}`}>
-        <h2 className="text-3xl font-bold text-primary hover:underline cursor-pointer">
+        <h2 className="text-3xl font-bold text-[#001f3f] hover:text-[#ffd700]  transition-all duration-200 ease-in-out cursor-pointer tracking-tight">
           {word}
         </h2>
       </Link>
 
       {definitions?.map((def, i) => (
         <div key={i} className="space-y-2">
-          <p className="text-lg text-gray-800 whitespace-pre-line">{def.description}</p>
+          <p className="text-2xl whitespace-pre-line leading-snug text-[#333]">{def.description}</p>
           {def.example && def.example.length > 0 && (
-            <div className="italic text-gray-600 pl-3 border-l-4 border-yellow-300">
+            <div className=" italic text-[#666] space-y-1">
               {def.example.map((ex, j) => (
-                <p key={j}>"{ex}"</p>
+                <p key={j} className="text-xl">"{ex}"</p>
               ))}
             </div>
           )}
         </div>
       ))}
 
-      <div className="text-sm text-gray-500">
+      <div className="text-xs text-[#888]">
         {(author?.trim() || '익명')} · {isValidDate ? `${time.getFullYear()}년 ${time.getMonth() + 1}월 ${time.getDate()}일` : '날짜 없음'}
       </div>
 

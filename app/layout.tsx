@@ -46,7 +46,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-[#001f3f] text-[#f0f0f0] font-mono">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

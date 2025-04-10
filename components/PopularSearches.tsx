@@ -34,38 +34,41 @@ export default function PopularSearches({ days }: Props) {
   }
 
   return (
-    <div className="bg-white border rounded-xl shadow-sm p-4">
-      <h2 className="text-lg font-bold mb-4 text-primary">
+    <div className="bg-white border-2 border-[#FFDC00] rounded-none p-6 font-mono text-[#1a1a1a] shadow-sm text-base">
+      <h2 className="text-sm font-bold mb-5 text-[#001f3f] tracking-widest uppercase border-b border-[#FFDC00] pb-2">
         {days === 7 ? '최근 7일간 인기 검색어' : '전체 인기 검색어'}
       </h2>
-      <ul className="space-y-3 text-sm">
+      <ul className="divide-y divide-[#f0f0f0] text-sm">
         {currentEntries.map(({ word, count }) => (
-          <li key={`${word}-${count}`} className="flex justify-between items-center">
+          <li
+            key={`${word}-${count}`}
+            className="flex justify-between items-center py-2"
+          >
             <Link
               href={`/search/${encodeURIComponent(word)}`}
-              className="text-gray-900 truncate max-w-[150px] hover:text-primary"
+              className="text-[#1a1a1a] hover:text-[#FFDC00] hover:underline truncate max-w-[160px]"
             >
               {word}
             </Link>
-            <span className="text-gray-400 text-xs whitespace-nowrap">{count}회</span>
+            <span className="text-[#999] whitespace-nowrap text-sm">{count}회</span>
           </li>
         ))}
       </ul>
-      <div className="flex justify-center items-center mt-4 gap-2">
+      <div className="flex justify-center items-center mt-6 gap-2 text-[#666] text-sm">
         <button
           onClick={handlePrev}
           disabled={page === 1}
-          className="px-2 py-0.5 text-xs border rounded disabled:opacity-30"
+          className="hover:text-[#001f3f] disabled:opacity-30"
         >
           ◀
         </button>
-        <span className="text-xs text-gray-500">
+        <span>
           {page} / {totalPages}
         </span>
         <button
           onClick={handleNext}
           disabled={page === totalPages}
-          className="px-2 py-0.5 text-xs border rounded disabled:opacity-30"
+          className="hover:text-[#001f3f] disabled:opacity-30"
         >
           ▶
         </button>

@@ -6,6 +6,9 @@ import SearchBar from '@/components/SearchBar'
 import { logSearch } from '@/lib/logSearch'
 import { LikeDislikeButtons } from '@/components/LikeDislikeButtons'
 import DefinitionCard from '@/components/DefinitionCard'
+import { Nanum_Myeongjo } from 'next/font/google'
+
+const nanum = Nanum_Myeongjo({ weight: '400', subsets: ['latin'], display: 'swap' })
 
 interface SearchPageProps {
   params: { query: string }
@@ -97,6 +100,7 @@ export default async function ResultPage({ params }: SearchPageProps) {
       </div>
 
       <h1 className="text-2xl font-bold mb-6">"{query}"의 정의</h1>
+
 
       <div className="space-y-6">
       {results.map((entry, idx) => (

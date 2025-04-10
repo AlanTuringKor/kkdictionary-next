@@ -1,37 +1,30 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import Image from 'next/image'
+import { Nanum_Myeongjo } from 'next/font/google'
+
+const nanum = Nanum_Myeongjo({ weight: '400', subsets: ['latin'], display: 'swap' })
 
 export default function Header() {
-  const pathname = usePathname()
-  const showSearch = pathname !== '/'
-
   return (
-    <header className="w-full bg-primary text-white shadow-md">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0">
-        {/* 로고 + 텍스트 */}
-        <Link href="/" className="flex items-center gap-6 group">
-          <div className="relative w-20 h-10">
-            <Image
-              src="/logo.png"
-              alt="ㅋㅋ 로고"
-              fill
-              className="object-contain transition-transform group-hover:scale-105"
-              priority
-            />
-          </div>
-          <span className="hidden sm:inline text-xl font-bold tracking-tight text-white">
-            ㅋㅋ백과
+    <header className="w-full bg-[#001830] py-6 shadow-sm border-b border-[#FFDC00]">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between font-mono text-white text-lg">
+
+        {/* 사이트 이름 */}
+        <Link href="/" className="flex items-center gap-4 group mx-auto ml-0 sm:ml-8 justify-center sm:justify-start w-full sm:w-auto ">
+          <span className={`text-4xl font-bold tracking-tight text-[#FFDC00] transition -rotate-[10deg]  ${nanum.className}`}>
+            <span className="block sm:hidden">ㅋㅋ</span>
+            <span className="hidden sm:inline">ㅋㅋ백과</span>
           </span>
         </Link>
 
-        <div className="flex items-center gap-4 w-full sm:w-auto">
-          <Link href="/about" className="text-sm hover:underline">
+        {/* 메뉴 */}
+        <nav className="flex items-center gap-8 text-sm">
+          <Link href="/about" className="hover:text-[#FFDC00] transition">
             소개
           </Link>
-        </div>
+          {/* 더 추가하고 싶으면 여기에 */}
+        </nav>
       </div>
     </header>
   )

@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState, useTransition } from 'react'
 import LoadingSpinner from './LoadingSpinner'
+import Image from 'next/image'
 
 export default function SearchBar() {
   const [query, setQuery] = useState('')
@@ -10,6 +11,8 @@ export default function SearchBar() {
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [isFocused, setIsFocused] = useState(false)
   const [isPending, startTransition] = useTransition()
+  const [placeholder, setPlaceholder] = useState('')
+
   const router = useRouter()
 
   const handleSearch = (input?: string) => {
@@ -23,6 +26,46 @@ export default function SearchBar() {
     setSuggestions([])
     setIsFocused(false)
   }
+
+  // 싸가지+위트 있는 placeholder 리스트
+  const placeholders = [
+    "오늘도 또 뭐 모르지? 써봐.",
+    "너도 이 말 처음 듣지?",
+    "할많하않, 그냥 검색이나 해.",
+    "요즘 애들 말? 몰라도 돼. 검색하면 돼.",
+    "뇌에 주름 하나 생기게 해줄게.",
+    "그 말... 찐이야?",
+    "얼탱이 없으면 검색부터.",
+    "어디서 듣긴 했는데 뜻은 몰랐지?",
+    "친구한테 아는 척 좀 해봐.",
+    "그 단어, 감당 가능?",
+    "말귀 못 알아들으면 서운하지?",
+    "요즘 유행어 모르면 꼰대야.",
+    "이걸 모른다고? 진심?",
+    "X친 말투 좀 해석해줄게.",
+    "검색 안 하고 버틸 자신 있음?",
+    "너 이거 모르면 손절각.",
+    "오늘도 한 입 단어충전 어때?",
+    "대충 말하면 검색이 도와줌.",
+    "무지성 검색 ㄱㄱ",
+    "이 말, 내가 만든 건 아니야.",
+    "검색은 살길이다.",
+    "네가 생각한 그 뜻 아님.",
+    "너만 몰라, 진심.",
+    "그 단어, 조심히 다뤄.",
+    "이건 좀... 어른 몰래 봐야 함.",
+    "뜻 모르면 입 조심하자.",
+    "써먹기 전에 뜻부터.",
+    "철학이 담긴 단어일 수도?",
+    "아는 척 금지, 검색 ㄱ",
+    "이거 모르면 요즘 사람 아님.",
+  ]
+
+  useEffect(() => {
+    // 페이지 로드 시 랜덤 placeholder 선택
+    const randomIndex = Math.floor(Math.random() * placeholders.length)
+    setPlaceholder(placeholders[randomIndex])
+  }, [])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -72,8 +115,8 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="relative w-full max-w-md">
-      <div className="flex">
+    <div className="relative w-full max-w-xl font-mono text-base">
+      <div className="flex border-8 border-[#FFDC00] rounded-none shadow-sm">
         <input
           type="text"
           value={query}
@@ -81,26 +124,26 @@ export default function SearchBar() {
           onKeyDown={handleKeyDown}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 100)}
-          placeholder="단어를 입력하세요"
-          className="w-full p-3 border border-gray-300 rounded-l-xl focus:outline-none"
+          placeholder={placeholder}
+          className="w-full p-4 text-base text-[#1a1a1a] bg-white focus:outline-none placeholder-[#999]"
         />
         <button
           onClick={() => handleSearch()}
-          className="bg-accent text-black px-4 py-3 rounded-r-xl hover:brightness-110"
+          className="bg-[#FFDC00] text-[#001f3f] px-6 py-4 hover:brightness-105 transition flex items-center justify-center"
         >
-          검색
+          <Image src="/magnifying-glass.svg" alt="검색" width={24} height={24} />
         </button>
       </div>
 
       {/* 자동완성 목록 */}
       {isFocused && suggestions.length > 0 && (
-        <ul className="absolute z-10 bg-white border w-full mt-1 rounded shadow">
+        <ul className="absolute z-10 bg-white border w-full mt-1 text-sm divide-y divide-[#f0f0f0] shadow-sm">
           {suggestions.map((word, index) => (
             <li
               key={word}
               onClick={() => handleSearch(word)}
-              className={`px-4 py-2 cursor-pointer ${
-                selectedIndex === index ? 'bg-gray-200' : 'hover:bg-gray-100'
+              className={`px-4 py-3 cursor-pointer text-black ${
+                selectedIndex === index ? 'bg-[#FFE970]' : 'hover:bg-[#FFF4A3]'
               }`}
             >
               {word}
