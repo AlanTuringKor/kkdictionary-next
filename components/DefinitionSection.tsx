@@ -22,14 +22,14 @@ export default function DefinitionSection({ randomWords, currentPage }: Definiti
       <div className="space-y-6">
         {randomWords.length === 0
           ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
-          : randomWords.map((entry) => (
+          : randomWords.map((entry, idx) => (
               <DefinitionCard
-                key={entry.id}
+                key={idx}
                 word={entry.word}
                 definitions={entry.definitions}
                 author={entry.author}
                 entry_time={entry.entry_time}
-                wordId={entry.wordId}
+                wordId={entry.id}
                 likedUsers={entry.liked_users ?? []}
                 dislikedUsers={entry.disliked_users ?? []}
               />

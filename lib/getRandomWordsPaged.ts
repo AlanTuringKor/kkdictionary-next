@@ -51,6 +51,6 @@ export async function getRandomWordsPaged(page: number): Promise<DictionaryEntry
 
   return deduped.map((entry: any) => ({
     ...entry,
-    id: entry._id?.toString() ?? entry.id,
+    id: entry.id ?? entry._id?.toString(),
   }))
 }
