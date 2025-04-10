@@ -1,4 +1,3 @@
-// components/Pagination.tsx
 import Link from 'next/link'
 
 interface PaginationProps {
@@ -30,10 +29,10 @@ export default function Pagination({ currentPage, totalPages, basePath }: Pagina
       <Link
         key={i}
         href={`${basePath}?page=${i}`}
-        className={`px-3 py-1.5 text-base font-mono transition text-[#FFDC00] ${
+        className={`px-3 py-1.5 text-base font-mono transition ${
           currentPage === i
-            ? 'bg-[#FFDC00] text-[#001f3f] font-bold'
-            : 'hover:bg-[#FFDC00]/10 rounded'
+            ? 'border border-[#FFDC00] text-[#FFDC00] font-bold rounded-none'
+            : 'text-[#FFDC00] hover:bg-[#FFDC00]/10 rounded'
         }`}
       >
         {i}
@@ -47,10 +46,10 @@ export default function Pagination({ currentPage, totalPages, basePath }: Pagina
     <Link
       key={label || page}
       href={`${basePath}?page=${page}`}
-      className={`px-3 py-1.5 text-base font-mono text-[#FFDC00] transition ${
+      className={`px-3 py-1.5 text-base font-mono transition ${
         isDisabled
-          ? 'opacity-30 cursor-default'
-          : 'hover:bg-[#FFDC00]/10 rounded'
+          ? 'text-[#FFDC00] opacity-30 cursor-default'
+          : 'text-[#FFDC00] hover:bg-[#FFDC00]/10 rounded'
       }`}
     >
       {label || page}
@@ -58,7 +57,7 @@ export default function Pagination({ currentPage, totalPages, basePath }: Pagina
   )
 
   return (
-    <nav className="flex justify-center items-center gap-2 flex-wrap mt-6">
+    <nav className="flex justify-center items-center gap-2 mt-6 overflow-x-auto whitespace-nowrap no-scrollbar px-2">
       {createPageLink(1, '<<', currentPage === 1)}
       {createPageLink(currentPage - 1, '<', currentPage === 1)}
       {pages}
