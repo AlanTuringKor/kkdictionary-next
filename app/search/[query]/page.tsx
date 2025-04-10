@@ -69,27 +69,35 @@ export default async function ResultPage({ params }: SearchPageProps) {
     const similarWords = await getSimilarWords(query)
 
     return (
-      <main className="p-4 max-w-2xl mx-auto">
-        <h1 className="text-xl font-semibold mb-4">"{query}"에 대한 결과가 없어요.</h1>
+          <main className="p-4 max-w-2xl mx-auto text-center">
+            <h1 className="text-xl font-semibold mb-6">"{query}"에 대한 결과가 없어요.</h1>
 
-        {similarWords.length > 0 && (
-          <div>
-            <h2 className="text-lg font-medium mb-2">혹시 이런 단어를 찾으셨나요?</h2>
-            <ul className="space-y-2">
-              {similarWords.map((word) => (
-                <li key={word}>
-                  <Link
-                    href={`/search/${encodeURIComponent(word)}`}
-                    className="text-blue-600 hover:underline"
-                  >
-                    {word}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </main>
+            {similarWords.length > 0 && (
+              <div className="mb-8">
+                <h2 className="text-lg font-medium mb-2">혹시 이런 단어를 찾으셨나요?</h2>
+                <ul className="space-y-2">
+                  {similarWords.map((word) => (
+                    <li key={word}>
+                      <Link
+                        href={`/search/${encodeURIComponent(word)}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {word}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 🧨 크고 오버스러운 단어 추가하기 버튼 */}
+            <Link
+              href="/add"
+              className="inline-block bg-[#FFDC00] text-[#001f3f] font-extrabold px-8 py-5 sm:px-10 sm:py-6 rounded-full shadow-[0_6px_30px_rgba(255,220,0,0.8)] hover:shadow-[0_8px_40px_rgba(255,220,0,1)] hover:scale-105 transition-all duration-300 text-2xl sm:text-3xl uppercase tracking-wide animate-pulse hover:animate-none mt-10"
+            >
+              ✏️ 단어 추가하러 가기
+            </Link>
+          </main>
     )
   }
 

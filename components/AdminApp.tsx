@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import SuggestedWordsPanel from "./SuggestedWordsPanel"
 
 interface Definition {
   description: string
@@ -107,6 +108,11 @@ export default function AdminApp() {
     <main className="max-w-3xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">🔐 관리자 페이지</h1>
 
+      <SuggestedWordsPanel />
+      <div className="border-t border-gray-300 my-8" />
+
+
+
       {/* ➕ 단어 추가 */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">➕ 단어 추가</h2>
@@ -145,7 +151,7 @@ export default function AdminApp() {
           placeholder="단어 검색 (전체 DB)"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full sm:w-1/2 border px-3 py-2 rounded text-sm"
+          className="w-full sm:w-1/2 border px-3 py-2 rounded text-sm text-black"
         />
         <select
           value={sortOrder}
@@ -153,7 +159,7 @@ export default function AdminApp() {
             setSortOrder(e.target.value as 'latest' | 'asc')
             setPage(1)
           }}
-          className="border px-3 py-2 rounded text-sm"
+          className="border px-3 py-2 rounded text-sm text-black"
         >
           <option value="latest">최신순</option>
           <option value="asc">가나다순</option>
@@ -208,7 +214,7 @@ export default function AdminApp() {
                 {isEditing ? (
                   <div className="mt-2 space-y-2">
                     <textarea
-                      className="w-full border rounded p-2 text-sm"
+                      className="w-full border rounded p-2 text-sm text-black"
                       value={editText}
                       onChange={e => setEditText(e.target.value)}
                       onKeyDown={(e) => {
@@ -223,7 +229,7 @@ export default function AdminApp() {
                       }}
                     />
                     <input
-                      className="w-full border rounded p-2 text-sm"
+                      className="w-full border rounded p-2 text-sm text-black"
                       placeholder="예시 (쉼표로 구분)"
                       value={editExamples}
                       onChange={e => setEditExamples(e.target.value)}

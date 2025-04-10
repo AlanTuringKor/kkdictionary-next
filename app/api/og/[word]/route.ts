@@ -16,7 +16,7 @@ export async function GET(request: Request, { params }: { params: { word: string
                         : 100
 
   // NanumMyeongjo 폰트 불러오기
-  const fontPath = path.join(process.cwd(), 'public/fonts/NanumMyeongjo-Bold.ttf')
+  const fontPath = path.join(process.cwd(), 'components/fonts/NanumMyeongjo-Bold.ttf')
   const fontData = fs.readFileSync(fontPath)
 
   return new ImageResponse(
