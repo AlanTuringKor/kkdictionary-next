@@ -2,6 +2,7 @@
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ClientLogger from '@/components/ClientLogger'
 
 export const metadata = {
   title: 'ㅋㅋ백과 - 한국어 신조어 사전',
@@ -47,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="min-h-screen flex flex-col bg-[#001f3f] text-[#f0f0f0] font-mono">
+        <ClientLogger />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

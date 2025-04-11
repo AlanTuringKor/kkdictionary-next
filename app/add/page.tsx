@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import ReCAPTCHA from "react-google-recaptcha"
 import { useState, useEffect } from "react" // ← useEffect 추가
 
-const TAG_OPTIONS = ["신조어","비속어","줄임말", "성적용어", "힙합", "게임", "배그", "롤", "속담", "SNS"]
+const TAG_OPTIONS = ["일반단어", "줄입말", "유행어","신조어", "비속어", "성적용어", "주식","힙합", "게임", "배그", "롤", "속담", "SNS"]
 
 
 const funHeaders = [
