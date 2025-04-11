@@ -28,7 +28,7 @@ export default async function WelcomePage({ searchParams }: SearchParams) {
   ])
 
   return (
-    <main className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 py-8 gap-8 bg-[#001f3f] text-[#f0f0f0] font-mono">
+    <main className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 py-8 gap-8 bg-[#001f3f] text-[#f0f0f0] font-mono overflow-x-hidden">
       {/* 왼쪽 사이드바 */}
       <aside className="w-full lg:w-[180px] shrink-0 hidden lg:block h-full lg:mt-28">
         <RecentWords entries={recentWords} />
