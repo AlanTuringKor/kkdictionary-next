@@ -1,10 +1,10 @@
-// components/ClientLogger.tsx
 'use client'
 
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { Suspense } from 'react'
 
-export default function ClientLogger() {
+function LoggerInner() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -26,3 +26,11 @@ export default function ClientLogger() {
 
   return null
 }
+
+export default function ClientLogger() {
+  return (
+    <Suspense fallback={null}>
+      <LoggerInner />
+    </Suspense>
+  )
+} 
