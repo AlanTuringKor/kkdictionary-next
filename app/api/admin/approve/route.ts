@@ -6,29 +6,19 @@ export async function POST(req: Request) {
   const { id } = await req.json()
   const db = await getDb()
 
-  const suggestion = await db.collection("usersuggested").findOne({ _id: new ObjectId(id) })
-  if (!suggestion) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 })
-  }
-
-  await db.collection("usersuggested").updateOne(
-    { _id: new ObjectId(id) },
-    { $set: { approved: true } }
+  const result = await db.collection("dictionaries").updateOne(
+    { _id: new ObjectId(id), approved: false },
+    {
+      $set: {
+        approved: true,
+        last_modified: new Date(),
+      },
+    }
   )
 
-  await db.collection("dictionaries").insertOne({
-    id: suggestion._id.toHexString(), // ✅ 핵심!
-    word: suggestion.word,
-    definitions: suggestion.definitions,
-    author: suggestion.author ?? "익명",
-    tags: suggestion.tags,
-    liked_users: [],
-    disliked_users: [],
-    entry_time: new Date(),
-    last_modified: new Date(),
-    source: "usersuggested",
-    source_dictID: suggestion._id.toHexString(),
-  })
+  if (result.matchedCount === 0) {
+    return NextResponse.json({ error: "단어를 찾을 수 없거나 이미 승인됨" }, { status: 404 })
+  }
 
   return NextResponse.json({ success: true })
 }

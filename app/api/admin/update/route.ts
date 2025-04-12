@@ -8,19 +8,19 @@ export async function POST(req: Request) {
 
   const _id = new ObjectId(id)
 
-  // ✅ 기존 suggestion 불러오기 (id 필드 유지용)
-  const existing = await db.collection("usersuggested").findOne({ _id })
-  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 })
-
-  await db.collection("usersuggested").updateOne(
-    { _id },
+  const result = await db.collection("dictionaries").updateOne(
+    { _id, approved: false },
     {
       $set: {
         ...updated,
-        id: _id.toHexString(), // ✅ 항상 id 필드 유지
+        last_modified: new Date(),
       },
     }
   )
+
+  if (result.matchedCount === 0) {
+    return NextResponse.json({ error: "Not found or already approved" }, { status: 404 })
+  }
 
   return NextResponse.json({ success: true })
 }

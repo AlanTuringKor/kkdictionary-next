@@ -1,4 +1,3 @@
-// ✅ app/api/admin/untagged-words/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/mongodb'
 
@@ -9,10 +8,21 @@ export async function GET(req: NextRequest) {
   const limit = parseInt(url.searchParams.get('limit') || '20')
 
   const words = await db.collection('dictionaries')
-    .find({ $or: [{ tags: { $exists: false } }, { tags: { $size: 0 } }] })
-    .sort({ entry_time: -1 })
-    .limit(limit)
-    .project({ id: 1, word: 1, definitions: 1 })
+    .aggregate([
+      {
+        $match: {
+          $or: [{ tags: { $exists: false } }, { tags: { $size: 0 } }]
+        }
+      },
+      { $sample: { size: limit } },
+      {
+        $project: {
+          id: 1,
+          word: 1,
+          definitions: 1,
+        }
+      }
+    ])
     .toArray()
 
   return NextResponse.json(words)

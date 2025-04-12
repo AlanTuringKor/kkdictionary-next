@@ -33,23 +33,23 @@ export async function POST(req: NextRequest) {
     }
 
     const db = await getDb()
-    const _id = new ObjectId() // ✅ 미리 ObjectId 생성
+    const _id = new ObjectId()
 
     const entry = {
-      _id,                      // ✅ MongoDB 기본 _id
-      id: _id.toHexString(),   // ✅ 사용자 정의 id 필드
+      _id,
+      id: _id.toHexString(),
       word,
       definitions: [{ description, example: exampleList }],
       liked_users: [],
       disliked_users: [],
       author: xss(body.author?.trim() || '익명'),
-      approved: null,
+      approved: false, // ✅ 고정
       entry_time: new Date(),
       tags: Array.isArray(body.tags) ? body.tags.filter(tag => typeof tag === 'string') : [],
-      source: 'usersuggested',
+      source: 'user',
     }
 
-    await db.collection('usersuggested').insertOne(entry)
+    await db.collection('dictionaries').insertOne(entry) // ✅ 여기가 핵심 수정!
 
     return NextResponse.json({ ok: true })
   } catch (err) {
